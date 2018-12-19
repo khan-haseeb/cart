@@ -7,7 +7,6 @@ var hbs=require('express-handlebars')
 var indexRouter = require('./routes/index');
 var mongoose=require('mongoose');
 var session=require('express-session');
-//var csrf=require('csurf');
 var passport=require('passport');
 var bcrypt=require('bcrypt-nodejs');
 var flash=require('connect-flash');
@@ -24,7 +23,6 @@ require('./config/passport');
 app.engine('.hbs',hbs({defaultLayout:'layout',extname:'.hbs'}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', '.hbs');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,19 +38,7 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(csrf({cookie: true}));
-// app.use(function (req, res, next) {
-//   var token = req.csrfToken();
-//   res.cookie('XSRF-TOKEN', token);
-//   res.locals.csrfToken = token;
-//   next();
-// });
-// app.use(function (req, res, next) {
-//   var token = req.csrfToken();
-//   res.cookie('XSRF-TOKEN', token);
-//   res.locals.csrfToken = token;
-//   next();
-// });
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req,res,next){
@@ -64,14 +50,11 @@ app.use(function(req,res,next){
 app.use('/user', usersRouter);
 app.use('/', routes);
 
-
 //app.use('/users', usersRouter);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
